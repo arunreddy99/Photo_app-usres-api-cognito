@@ -3,3 +3,8 @@
 *.int
 *.lk
 *.zip
+*.aws-sam/
+*.Ds_Store
+*.classpath
+*.project
+*target
