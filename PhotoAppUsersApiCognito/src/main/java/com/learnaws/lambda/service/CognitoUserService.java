@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.google.gson.JsonObject;
+import com.learnaws.lambda.constants.Constants;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -73,10 +74,10 @@ public class CognitoUserService {
 
 		logger.log("Signup Response :" + signUpResponse);
 		JsonObject createUserResult = new JsonObject();
-		createUserResult.addProperty("isSuccessfull :", signUpResponse.sdkHttpResponse().isSuccessful());
-		createUserResult.addProperty("statusCode :", signUpResponse.sdkHttpResponse().statusCode());
-		createUserResult.addProperty("cognitoUserId :", signUpResponse.userSub());
-		createUserResult.addProperty("userConfirmed :", signUpResponse.userConfirmed());
+		createUserResult.addProperty(Constants.IS_SUCCESSFULL, signUpResponse.sdkHttpResponse().isSuccessful());
+		createUserResult.addProperty(Constants.STATUS_CODE, signUpResponse.sdkHttpResponse().statusCode());
+		createUserResult.addProperty(Constants.COGNITO_USER_ID, signUpResponse.userSub());
+		createUserResult.addProperty(Constants.IS_CONFIRMED, signUpResponse.userConfirmed());
 
 		return createUserResult;
 	}
@@ -92,8 +93,8 @@ public class CognitoUserService {
 		ConfirmSignUpResponse confirmSignUpResponse = cognitoIdentityProviderClient.confirmSignUp(confirmSignUpRequest);
 
 		JsonObject confirmUserResponse = new JsonObject();
-		confirmUserResponse.addProperty("isSuccessfull :", confirmSignUpResponse.sdkHttpResponse().isSuccessful());
-		confirmUserResponse.addProperty("statusCode :", confirmSignUpResponse.sdkHttpResponse().statusCode());
+		confirmUserResponse.addProperty(Constants.IS_SUCCESSFULL, confirmSignUpResponse.sdkHttpResponse().isSuccessful());
+		confirmUserResponse.addProperty(Constants.STATUS_CODE, confirmSignUpResponse.sdkHttpResponse().statusCode());
 		return confirmUserResponse;
 
 	}
@@ -120,9 +121,9 @@ public class CognitoUserService {
 		AuthenticationResultType authenticationResultType = initateAuthResponse.authenticationResult();
 
 		JsonObject loginUserResponse = new JsonObject();
-		loginUserResponse.addProperty("isSuccessfull", initateAuthResponse.sdkHttpResponse().isSuccessful());
-		loginUserResponse.addProperty("StatusCode", initateAuthResponse.sdkHttpResponse().statusCode());
-		loginUserResponse.addProperty("id Token", authenticationResultType.idToken());
+		loginUserResponse.addProperty(Constants.IS_SUCCESSFULL, initateAuthResponse.sdkHttpResponse().isSuccessful());
+		loginUserResponse.addProperty(Constants.STATUS_CODE, initateAuthResponse.sdkHttpResponse().statusCode());
+		loginUserResponse.addProperty(Constants.ID_TOKEN, authenticationResultType.idToken());
 		loginUserResponse.addProperty("access Token", authenticationResultType.accessToken());
 		loginUserResponse.addProperty("refresh Token", authenticationResultType.refreshToken());
 
@@ -139,8 +140,8 @@ public class CognitoUserService {
 		AdminAddUserToGroupResponse adminAddUserToGroupResponse =cognitoIdentityProviderClient.adminAddUserToGroup(adminAddUserToGroupRequest); 
 		
 		JsonObject addUserToGroupResponse = new JsonObject();
-		addUserToGroupResponse.addProperty("isSuccessfull", adminAddUserToGroupResponse.sdkHttpResponse().isSuccessful());
-		addUserToGroupResponse.addProperty("StatusCode", adminAddUserToGroupResponse.sdkHttpResponse().statusCode());
+		addUserToGroupResponse.addProperty(Constants.IS_SUCCESSFULL, adminAddUserToGroupResponse.sdkHttpResponse().isSuccessful());
+		addUserToGroupResponse.addProperty(Constants.STATUS_CODE, adminAddUserToGroupResponse.sdkHttpResponse().statusCode());
 		
 		return addUserToGroupResponse;
 
@@ -151,8 +152,8 @@ public class CognitoUserService {
 		GetUserResponse getUserResponse = cognitoIdentityProviderClient.getUser(getUserRequest);
 		
 		JsonObject getUserResult = new JsonObject();
-		getUserResult.addProperty("isSuccessfull", getUserResponse.sdkHttpResponse().isSuccessful());
-		getUserResult.addProperty("StatusCode", getUserResponse.sdkHttpResponse().statusCode());
+		getUserResult.addProperty(Constants.IS_SUCCESSFULL, getUserResponse.sdkHttpResponse().isSuccessful());
+		getUserResult.addProperty(Constants.STATUS_CODE, getUserResponse.sdkHttpResponse().statusCode());
 		
 		List<AttributeType> userAttributes = getUserResponse.userAttributes();
 		JsonObject userDetails = new JsonObject();
